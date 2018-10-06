@@ -1,8 +1,8 @@
 version: 0.1
 stack:
-  name: eks-nodes1 # Note: Update this with your stack name
+  name: eks-nodes # Note: Update this with your stack name
   template:
-    file: nodes.stack.yml
+    file: amazon-eks-nodegroup.yaml
     bucket: cim-stack-raul2 # Note: Update this with your bucket name.  Stacks are uploaded here prior to deployment.'
 
   #
@@ -10,12 +10,16 @@ stack:
   #
   parameters:
     KeyName: 'suestra'
-    VPCStack: 'eks-vpc'
-    ClusterStack: 'eks-cluster'
-    ClusterName: 'Cluster-zS9X9yd4Qymw'
+    NodeImageId: 'ami-0a54c984b9f908c81'	
+    NodeGroupName: 'eks-cluster'
+    VpcId: 'vpc-00ac21e521c6d3d49'
+    ClusterName: 'Cluster-ijWbq3QDljLN'
     NodeInstanceType: 't2.small'
+    NodeAutoScalingGroupMinSize: '1'
     NodeAutoScalingGroupMaxSize: '1'
-
+    #Poner el ID que se se encuentra en el output del cluster
+    ClusterControlPlaneSecurityGroup: 'sg-068f4f6e2c6648711' 
+    Subnets: 'subnet-01276f6e30a40fd08,subnet-04f1af51561d15a3b'
   #
   # Define stack capabilities required.
   #
@@ -26,4 +30,4 @@ stack:
   # Define global tags.
   #
   tags:
-    app: 'eks-cluster'
+    app: 'eks-nodes'
